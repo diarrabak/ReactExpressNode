@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import axios from "axios";
-//Component used to display the list of all the seminars
+//Component used to display the list of all the groups
 
 class ShowGroup extends React.Component {
   constructor(props) {
@@ -67,7 +67,7 @@ class ShowGroup extends React.Component {
           </div>
         </div>
         <div className="row">
-          {/*List of seminar from the state variable*/}
+          {/*List of group from the state variable*/}
           {groupResearchers.map((group, id) => (
             <div
               className="card col-12 col-sm-4"
@@ -94,7 +94,7 @@ class ShowGroup extends React.Component {
                 </div>
 
                 <div className="col-12 col-sm-6">
-                  {/*Link to the page of updating a seminar */}
+                  {/*Link to the page of updating a group */}
                   <Link className="btn btn-success" to={"/group/" + this.state.id }> Update </Link>
                 </div>
               </div>

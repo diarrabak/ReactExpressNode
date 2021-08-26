@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 
-//Main component of seminar feature
+//Main component of group feature
 class GroupList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groups: [], //List of all seminars
-      currentGroupId: "", //Selected seminar id
+      groups: [], //List of all groups
+      currentGroupId: "", //Selected group id
       currentGroup: {},
       id:'',
     };
@@ -55,10 +55,10 @@ class GroupList extends React.Component {
         <h1> Group list</h1>
 
         <div className="row">
-          {/*List of seminar from the state variable*/}
+          {/*List of group from the state variable*/}
           {groups.map((group, id) => (
             <div
-              className="card col-12 col-sm-4"
+              className="card col-12 col-md-4"
               onClick={() => this.setCurrentGroup(group, id)}
               onMouseEnter={() => this.setCurrentGroup(group, id)}
               key={id}
@@ -73,7 +73,7 @@ class GroupList extends React.Component {
                 <p className="card-text">{group.description}</p>
               </div>
               <div className="row">
-                <div className="col-12 col-sm-6">
+                <div className="col-12 col-md-6">
                   <button
                     className="btn btn-danger"
                     onClick={this.deleteGroup}
@@ -82,8 +82,8 @@ class GroupList extends React.Component {
                   </button>
                 </div>
 
-                <div className="col-12 col-sm-6">
-                  {/*Link to the page of updating a seminar */}
+                <div className="col-12 col-md-6">
+                  {/*Link to the page of updating a group */}
                   <Link className="btn btn-success" to={"/group/" + this.state.id }> Update </Link>
                 </div>
               </div>
@@ -92,11 +92,11 @@ class GroupList extends React.Component {
         </div>
 
         <div className="row">
-          <div className="col-12 col-sm-4">
-            {/*Link to the page of new seminar creation. This must be created in routes in App component*/}
+          <div className="col-12 col-sm-6">
+            {/*Link to the page of new group creation. This must be created in routes in App component*/}
             <Link to="/addGroup"> Add new group </Link>
           </div>
-          {/*Link to the page of seminar removal*/}
+          {/*Link to the page of group removal*/}
         </div>
       </main>
     );

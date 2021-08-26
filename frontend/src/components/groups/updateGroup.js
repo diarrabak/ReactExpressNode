@@ -2,7 +2,8 @@ import React from "react";
 import { withRouter } from "react-router";
 import {Link } from "react-router-dom";
 import axios from "axios";
-//Component used to display the list of all the seminars
+import FileBase from "react-file-base64";
+//Component used to display the list of all the groups
 
 class UpdateGroup extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class UpdateGroup extends React.Component {
           picture: Response.data.picture,
           researchers: Response.data.researchers,
         });
-        //console.log('element='+this.state.currentSeminar);
+        //console.log('element='+this.state.currentgroup);
       })
       .catch((error) => {
         console.log(error);
@@ -80,11 +81,6 @@ class UpdateGroup extends React.Component {
     });
   }
 
-  onChangePicture(e) {
-    this.setState({
-      picture: e.target.value,
-    });
-  }
 
   submitGroup(event) {
     const id = this.props.match.params.id;
@@ -138,7 +134,7 @@ class UpdateGroup extends React.Component {
               className="form-label  col-12 col-sm-2"
               htmlFor="description"
             >
-              group description
+              Group description
             </label>
             <div className="col-12 col-sm-10">
               <input
@@ -158,14 +154,13 @@ class UpdateGroup extends React.Component {
               Picture
             </label>
             <div className="col-12 col-sm-10">
-              <input
-                type="text"
-                className="form-control"
-                name="picture"
-                id="picture"
-                value={picture}
-                onChange={this.onChangePicture}
-              />
+            <FileBase
+                  type="file"
+                  multiple={false}
+                  onDone={({ base64 }) =>
+                    this.setState({ picture: base64 })
+                  }
+                />
             </div>
           </div>
 
@@ -204,7 +199,7 @@ class UpdateGroup extends React.Component {
             <div className="offset-sm-2 col-12 col-sm-4">
               <input type="submit" className="btn btn-success" />
             </div>
-            {/*Link back to seminar list*/}
+            {/*Link back to group list*/}
             <div className="col-12 col-sm-6">
               <Link to="/groups"> Back to group list </Link>
             </div>
