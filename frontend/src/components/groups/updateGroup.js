@@ -105,7 +105,7 @@ class UpdateGroup extends React.Component {
   }
 
   render() {
-    const { title, description, picture, selectedResearchers } = this.state;
+    const { title, description, picture, researchers } = this.state;
 
     return (
       <main>
@@ -176,7 +176,7 @@ class UpdateGroup extends React.Component {
             <div className="col-12 col-sm-10">
               <select
                 multiple={true}
-                value={selectedResearchers}
+                value={researchers}
                 onChange={this.onChangeResearchers}
                 className="form-control"
                 name="researchers"
