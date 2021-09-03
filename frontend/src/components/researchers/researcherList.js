@@ -3,28 +3,28 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 
-//Main component of group feature
-class GroupList extends React.Component {
+//Main component of researcher feature
+class ResearcherList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groups: [], //List of all groups
-      currentGroupId: "", //Selected group id
-      currentGroup: {},
+      researchers: [], //List of all groups
+      currentResearcherId: "", //Selected group id
+      currentResearcher: {},
       id:'',
     };
-    this.deleteGroup=this.deleteGroup.bind(this);
+    this.deleteResearcher=this.deleteResearcher.bind(this);
   }
   //When the component is active on the DOM
   componentDidMount() {
-    const url = "http://localhost:5000/groups"; //Url of the controller
+    const url = "http://localhost:5000/researchers"; //Url of the controller
 
     // Use of the get controllers through the axios API
     axios
       .get(url)
       .then((Response) => {
         this.setState({
-          groups: Response.data,
+          researchers: Response.data,
         });
       })
       .catch((error) => {
@@ -32,16 +32,16 @@ class GroupList extends React.Component {
       });
   }
 
-  setCurrentGroup(group, index) {
+  setCurrentResearcher(researcher, index) {
     this.setState({
-      currentGroup: group,
-      currentGroupId: index,
-      id:group._id,
+      currentResearcher: researcher,
+      currentResearcherId: index,
+      id:researcher._id,
     });
   }
 
-  deleteGroup() {
-    const url = "http://localhost:5000/group/" + this.state.id ; //Url of the controller
+  deleteResearcher() {
+    const url = "http://localhost:5000/researcher/" + this.state.id ; //Url of the controller
     // Use of the get controllers through the axios API
     axios
       .delete(url);
@@ -49,33 +49,34 @@ class GroupList extends React.Component {
   }
 
   render() {
-    const { groups } = this.state;
+    const { researchers } = this.state;
     return (
       <main>
-        <h1> Group list</h1>
+        <h1> Researcher list</h1>
 
         <div className="row">
           {/*List of group from the state variable*/}
-          {groups.map((group, id) => (
+          {researchers.map((researcher, id) => (
             <div
               className="card col-12 col-md-4"
-              onClick={() => this.setCurrentGroup(group, id)}
-              onMouseEnter={() => this.setCurrentGroup(group, id)}
+              onClick={() => this.setCurrentResearcher(researcher, id)}
+              onMouseEnter={() => this.setCurrentResearcher(researcher, id)}
               key={id}
             >
               <img
                 className="card-img-top"
-                src={group.picture}
+                src={researcher.picture}
                 alt="Card cap"
               />
               <div className="card-body">
-                <h5 className="card-title"><Link to={"/showGroup/"+ this.state.id }>{group.title} </Link> </h5>
+                <h5 className="card-title"><Link to={"/showResearcher/"+ this.state.id }>{researcher.first_name}{' '} {researcher.last_name}</Link> </h5>
+                <p className="card-text">{researcher.biography}</p>
               </div>
               <div className="row">
                 <div className="col-6">
                   <button
                     className="btn btn-danger"
-                    onClick={this.deleteGroup}
+                    onClick={this.deleteResearcher}
                   >
                     Delete
                   </button>
@@ -83,7 +84,7 @@ class GroupList extends React.Component {
 
                 <div className="col-6">
                   {/*Link to the page of updating a group */}
-                  <Link className="btn btn-success" to={"/group/" + this.state.id }> Update </Link>
+                  <Link className="btn btn-success" to={"/researcher/" + this.state.id }> Update </Link>
                 </div>
               </div>
             </div>
@@ -93,7 +94,7 @@ class GroupList extends React.Component {
         <div className="row">
           <div className="col-12 col-sm-6">
             {/*Link to the page of new group creation. This must be created in routes in App component*/}
-            <Link to="/addGroup"> Add new group </Link>
+            <Link to="/addResearcher"> Add new researcher </Link>
           </div>
           {/*Link to the page of group removal*/}
         </div>
@@ -102,4 +103,4 @@ class GroupList extends React.Component {
   }
 }
 
-export default GroupList;
+export default ResearcherList;

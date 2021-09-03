@@ -3,69 +3,91 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="header">
-      <div className="row">
-        <div className="col-12 col-sm-4" id="logo">
-          <Link to="/">
+    <header>
+      <nav className="navbar navbar-expand-lg">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">
             LOSSA<span>Lab</span>
           </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+           <span className="navbar-toggler-icon"> <i className="fa fa-bars"> </i></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link className="nav-link" to="/home">
+                  Home
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/events">
+                  Events
+                </Link>
+              </li>
+              <li className="nav-item dropdown">
+                <Link
+                  className="nav-link dropdown-toggle"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  to="/research"
+                >
+                  Research
+                </Link>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <Link className="dropdown-item" to="/groups">
+                      Teams
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/researchers">
+                      Researchers
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/articles">
+                      Publications
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li className="nav-item dropdown">
+                <Link
+                  className="nav-link"
+                  to="/careers"
+                >
+                  Careers
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to="/studies"
+                >
+                  Studies
+                </Link>
+              </li>
+              <li  className="nav-item">
+                <Link  className="nav-link"to="/contact">
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-        <nav className="col-12 col-sm-8">
-          <ul>
-            <li>
-              <Link to="/home">Home</Link>
-            </li>
-            <li>
-              <Link to="/events">Events</Link>
-            </li>
-            <li className="research">
-              <Link to="/research">Research</Link>
-              <ul className="sub-link">
-                <li>
-                  <Link to="/groups">Teams</Link>
-                </li>
-                <li>
-                  <Link to="/researchers">Researchers</Link>
-                </li>
-                <li>
-                  <Link to="/articles">Publications</Link>
-                </li>
-              </ul>
-            </li>
-            <li className="careers">
-              <Link to="/careers">Careers</Link>
-
-              <ul className="sub-link">
-                <li>
-                  <Link to="/phd-positions">PhD positions</Link>
-                </li>
-                <li>
-                  <Link to="/internships">Internships</Link>
-                </li>
-                <li>
-                  <Link to="/other-positions">Other positions</Link>
-                </li>
-              </ul>
-            </li>
-
-            <li className="studies">
-              <Link to="/studies">Studies</Link>
-              <ul className="sub-link">
-                <li>
-                  <Link to="/doctorate">Doctorate programs</Link>
-                </li>
-                <li>
-                  <Link to="/masters">Master programs</Link>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 };
 

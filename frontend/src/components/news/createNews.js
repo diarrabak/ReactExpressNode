@@ -5,32 +5,32 @@ import { Link } from "react-router-dom";
 import FileBase from "react-file-base64";
 
 // This component is used to create a new group and save to the database
-class CreateGroup extends React.Component {
+class CreateNews extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: "",
       description: "",
       picture: "",
-      researchers: [], //List of all users
-      selectedResearchers: [],
+     date:"",
     };
     this.onChangeTitle = this.onChangeTitle.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeResearchers = this.onChangeResearchers.bind(this);
+    this.onChangePicture = this.onChangePicture.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
   }
   //method appending the form data to the group fields
 
-  submitGroup(event) {
+  submitNews(event) {
     event.preventDefault();
 
     //Our controller endpoint to save data to the database
     axios
-      .post("http://localhost:5000/groups", {
+      .post("http://localhost:5000/news", {
         title: this.state.title,
         description: this.state.description,
         picture: this.state.picture,
-        researchers: this.state.selectedResearchers,
+        date: this.state.date,
       })
       .then((response) => {
         console.log(response);
@@ -39,19 +39,10 @@ class CreateGroup extends React.Component {
       .catch((error) => {
         console.log(error);
       });
-    this.props.history.push("/groups");
+    this.props.history.push("/news");
   }
 
   //Function to update the select value
-  onChangeResearchers(e) {
-    this.setState({
-      selectedResearchers: Array.from(
-        e.target.selectedOptions,
-        (item) => item.value
-      ),
-    });
-    e.preventDefault();
-  }
 
   onChangeTitle(e) {
     this.setState({
@@ -65,18 +56,16 @@ class CreateGroup extends React.Component {
     });
   }
 
-  componentDidMount() {
-    axios
-      .get("http://localhost:5000/researchers/")
-      .then((Response) => {
-        this.setState({
-          researchers: Response.data,
-        });
-        console.log("element=" + Response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  onChangePicture(e) {
+    this.setState({
+      picture: e.target.value,
+    });
+  }
+
+  onChangeDate(e) {
+    this.setState({
+      date: e.target.value,
+    });
   }
 
   //redirect function to be included so that we go back to group list each time a new group is added
@@ -85,14 +74,14 @@ class CreateGroup extends React.Component {
     return (
       <>
         <main>
-          <h1>Create a new group</h1>
+          <h1>Create news</h1>
           {/*Form used to fill the group component*/}
           <form
-            onSubmit={this.submitGroup.bind(this)}
+            onSubmit={this.submitNews.bind(this)}
           >
             <div className="form-group row">
               <label className="form-label col-12 col-sm-2" htmlFor="title">
-                Group title
+                Title
               </label>
               <div className="col-12 col-sm-10">
                 <input
@@ -112,7 +101,7 @@ class CreateGroup extends React.Component {
                 className="form-label  col-12 col-sm-2"
                 htmlFor="description"
               >
-                Group description
+                Description
               </label>
               <div className="col-12 col-sm-10">
                 <textarea
@@ -123,8 +112,6 @@ class CreateGroup extends React.Component {
                  value={this.state.description}
                   onChange={this.onChangeDescription}
                 >
-               
-                
                 </textarea>
               </div>
             </div>
@@ -144,46 +131,29 @@ class CreateGroup extends React.Component {
               </div>
             </div>
 
-            {/*Since it is a many to many relationship, no need to include users and topics here*/}
-
             <div className="form-group row">
-              <label
-                className="form-label  col-12 col-sm-2"
-                htmlFor="researchers"
-              >
-                Group researchers
+              <label className="form-label col-12 col-sm-2" htmlFor="date">
+                Date
               </label>
               <div className="col-12 col-sm-10">
-                <select
-                  multiple={true}
-                  value={this.state.selectedResearchers}
-                  onChange={this.onChangeResearchers}
+                <input
+                  type="date"
                   className="form-control"
-                  name="researchers"
-                >
-                  <option value="">== Choose researchers == </option>
-                  {/*Capitalize the first letter*/}
-                  {this.state.researchers.map((item) => (
-                    <option value={item._id} key={item._id}>
-                      {item.first_name.charAt(0).toUpperCase() +
-                        item.first_name.substring(1)}
-                      {item.last_name.charAt(0).toUpperCase() +
-                        item.last_name.substring(1)}
-                    </option>
-                  ))}
-                </select>
+                  name="date"
+                  id="date"
+                  required
+                  value={this.state.date}
+                  onChange={this.onChangeDate}
+                />
               </div>
             </div>
 
             <div className="row">
               <div className="offset-sm-2 col-12 col-sm-4">
                 <input type="submit" className="btn btn-success" />
-                {/*} <SubmitButton />*/}
-                {/* onClick={(event) => (window.location.href = "/group")}*/}
               </div>
-              {/*Link back to group list*/}
               <div className="col-12 col-sm-6">
-                <Link to="/groups"> Back to group list </Link>
+                <Link to="/news"> Back to news list </Link>
               </div>
             </div>
           </form>
@@ -193,4 +163,4 @@ class CreateGroup extends React.Component {
   }
 }
 
-export default withRouter(CreateGroup);
+export default withRouter(CreateNews);

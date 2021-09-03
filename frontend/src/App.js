@@ -11,7 +11,27 @@ import GroupList from "./components/groups/groupList";
 import CreateGroup from "./components/groups/createGroup";
 import UpdateGroup from "./components/groups/updateGroup";
 import ShowGroup from "./components/groups/showGroup";
-
+import CreateResearcher from "./components/researchers/createResearcher";
+import ResearcherList from "./components/researchers/researcherList";
+import ShowResearcher from "./components/researchers/showResearcher";
+import UpdateResearcher from "./components/researchers/updateResearcher";
+import CreateArticle from "./components/articles/createArticle";
+import ShowArticle from "./components/articles/showArticle";
+import ArticleList from  "./components/articles/articleList";
+import UpdateArticle from "./components/articles/updateArticle";
+import CreateNews from "./components/news/createNews";
+import UpdateNews from "./components/news/updateNews";
+import ShowNews from "./components/news/showNews";
+import NewsList from "./components/news/newsList";
+import EventList from "./components/events/eventList";
+import CreateEvent from "./components/events/createEvent";
+import UpdateEvent from "./components/events/updateEvent";
+import ShowEvent from "./components/events/showEvent";
+import CreateJob from "./components/careers/createJob";
+import JobList from "./components/careers/jobList";
+import UpdateJob from "./components/careers/updateJob";
+import ShowJob from "./components/careers/showJob";
+import Studies from "./components/template/studies";
 function App() {
   return (
     <div className="App">
@@ -33,9 +53,41 @@ function App() {
           <Research />
         </Route>
 
-        <Route path="/researchers">
-          <Contact />
+       <Route path="/researchers">
+          <ResearcherList />
         </Route>
+
+         <Route path="/researcher/:id">
+          <UpdateResearcher />
+        </Route>
+
+        <Route path="/showResearcher/:id">
+          <ShowResearcher />
+        </Route> 
+
+
+        <Route path="/addResearcher">
+          <CreateResearcher />
+        </Route> 
+
+
+        <Route path="/events">
+          <EventList />
+        </Route>
+
+         <Route path="/event/:id">
+          <UpdateEvent />
+        </Route>
+
+        <Route path="/showEvent/:id">
+          <ShowEvent />
+        </Route> 
+
+
+        <Route path="/addEvent">
+          <CreateEvent />
+        </Route> 
+
         <Route path="/groups">
           <GroupList />
         </Route>
@@ -52,12 +104,37 @@ function App() {
           <ShowGroup />
         </Route>
 
-        <Route path="/articles">
-          <Contact />
+        <Route path="/addArticle">
+          <CreateArticle />
         </Route>
 
-        <Route path="/studies">
-          <Research />
+        <Route path="/articles">
+          <ArticleList />
+        </Route>
+
+        <Route path="/article/:id">
+          <UpdateArticle />
+        </Route>
+
+        <Route path="/showArticle/:id">
+          <ShowArticle />
+        </Route>
+
+
+        <Route path="/addNews">
+          <CreateNews />
+        </Route>
+
+        <Route path="/news">
+          <NewsList />
+        </Route>
+
+        <Route path="/new/:id">
+          <UpdateNews />
+        </Route>
+
+        <Route path="/showNews/:id">
+          <ShowNews />
         </Route>
 
         <Route path="/doctorate">
@@ -66,19 +143,27 @@ function App() {
         <Route path="/masters">
           <Contact />
         </Route>
-        <Route path="/careers">
-          <Contact />
+        <Route path="/addJob">
+          <CreateJob />
+        </Route>
+
+        <Route path="/showJob/:id">
+          <ShowJob />
+        </Route>
+
+        <Route path="/job/:id">
+          <UpdateJob />
         </Route>
 
         <Route path="/careers">
-          <Contact />
+          <JobList />
         </Route>
 
-        <Route path="/internships">
-          <Contact />
+        <Route path="/studies">
+          <Studies />
         </Route>
 
-        <Route path="/phd-positions">
+        {/* <Route path="/phd-positions">
           <Contact />
         </Route>
         <Route path="/postdocs">
@@ -87,7 +172,7 @@ function App() {
        
         <Route path="/other-positions">
           <Contact />
-        </Route>
+        </Route> */}
 
         <Route path="*">
           <Error />

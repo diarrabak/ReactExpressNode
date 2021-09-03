@@ -2,17 +2,19 @@ import React from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import axios from "axios";
-//Component used to display the list of all the groups
+//Component used to display the selected researcher
 
-class ShowGroup extends React.Component {
+class ShowJob extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: "",
-      description: "",
-      picture: "",
-      researchers: [], //List of all users
-      groupResearchers: [],
+      description:"",
+      jobtype: "",
+      file: "",
+      year: "",
+      researchers: [],
+      contactResearchers: [],
     };
   }
 
@@ -23,28 +25,30 @@ class ShowGroup extends React.Component {
     console.log("RS= " + id);
     // Use of the get controllers through the axios API
     axios
-      .get("http://localhost:5000/group/" + id)
+      .get("http://localhost:5000/job/" + id)
       .then((Response) => {
         this.setState({
           title: Response.data.title,
           description: Response.data.description,
-          picture: Response.data.picture,
+          jobtype: Response.data.jobtype,
+          file: Response.data.file,
+          year: Response.data.year,
           researchers: Response.data.researchers,
         });
 
         for (let researcher of this.state.researchers) {
-          console.log("Rsearcher= " + researcher);
           axios
             .get(
               "http://localhost:5000/researcher/" + researcher
             )
-            .then((Res) => {
+            .then((Resp) => {
               this.setState({
-                groupResearchers: [...this.state.groupResearchers, Res.data],
+                contactResearchers: [...this.state.contactResearchers, Resp.data],
               });
-              console.log("name=" + Response.data);
+              console.log("element=" + Resp.data);
             });
         }
+
       })
       .catch((error) => {
         console.log(error);
@@ -52,23 +56,23 @@ class ShowGroup extends React.Component {
   }
 
   render() {
-    const { title, description, picture, researchers, groupResearchers } = this.state;
+    const { title, description, jobtype, file, year, researchers, contactResearchers } = this.state;
 
     return (
       <main>
-        <div>
-          <img className="top-img card-img-top" src={picture} alt="Card cap" />
-        </div>
-        <div className="row">
-          <h1 className="group-title">Details about {title} group </h1>
-          <p className="group-description col-12">{description}</p>
-        </div>
-
-
-        <div className="row">
-          <h2>Researchers in {title} group</h2>
        
-          {groupResearchers.map((researcher, id) => (
+        <div className="row">
+          <h1 className="researcher-title">Details about {title} {' '} position </h1>
+          <p className="group-description col-12">{description}</p>
+          <p className="group-description col-12">{jobtype}</p>
+          <p className="group-description col-12">{year}</p>
+          <p> <Link to={file!=="" ? file:"#"} download> Download</Link> </p>
+        </div>
+
+        <div className="row">
+          <h2>Contact person</h2>
+          {/*List of group from the state variable*/}
+          {contactResearchers.map((researcher, id) => (
             <div key={id}
               className="card col-12 col-sm-4"
             >
@@ -82,9 +86,8 @@ class ShowGroup extends React.Component {
                   className="btn btn-success"
                   to={"/showResearcher/" + researcher._id}
                 >
-                  {researcher.first_name}
-                  {' '}
-                  {researcher.last_name}
+                  {researcher.first_name} {' '} {researcher.last_name}
+              
                 </Link>
               </p>
             </div>
@@ -93,7 +96,7 @@ class ShowGroup extends React.Component {
 
         <div className="row">
           <div className="col-12 col-sm-6">
-            <Link to="/groups"> Back to group list </Link>
+            <Link to="/careers"> Back to jobs list </Link>
           </div>
         </div>
       </main>
@@ -101,4 +104,4 @@ class ShowGroup extends React.Component {
   }
 }
 
-export default withRouter(ShowGroup);
+export default withRouter(ShowJob);

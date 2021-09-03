@@ -8,12 +8,12 @@ export const ArticleSchema = new Schema({
     type: String,
     required: true,
   },
-  authors: [String],
+  authors: String,
   abstract: {
     type: String,
     required: true,
   },
-  tags:[ String],
+  tags: String,
   file: {
     type: String,
     required: false,

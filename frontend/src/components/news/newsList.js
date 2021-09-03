@@ -4,27 +4,27 @@ import axios from "axios";
 
 
 //Main component of group feature
-class GroupList extends React.Component {
+class NewsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groups: [], //List of all groups
-      currentGroupId: "", //Selected group id
-      currentGroup: {},
+      news: [], //List of all groups
+      currentNewsId: "", //Selected group id
+      currentNews: {},
       id:'',
     };
-    this.deleteGroup=this.deleteGroup.bind(this);
+    this.deleteNews=this.deleteNews.bind(this);
   }
   //When the component is active on the DOM
   componentDidMount() {
-    const url = "http://localhost:5000/groups"; //Url of the controller
+    const url = "http://localhost:5000/news"; //Url of the controller
 
     // Use of the get controllers through the axios API
     axios
       .get(url)
       .then((Response) => {
         this.setState({
-          groups: Response.data,
+          news: Response.data,
         });
       })
       .catch((error) => {
@@ -32,16 +32,16 @@ class GroupList extends React.Component {
       });
   }
 
-  setCurrentGroup(group, index) {
+  setCurrentNews(news, index) {
     this.setState({
-      currentGroup: group,
-      currentGroupId: index,
-      id:group._id,
+      currentNews: news,
+      currentNewsId: index,
+      id:news._id,
     });
   }
 
-  deleteGroup() {
-    const url = "http://localhost:5000/group/" + this.state.id ; //Url of the controller
+  deleteNews() {
+    const url = "http://localhost:5000/news/" + this.state.id ; //Url of the controller
     // Use of the get controllers through the axios API
     axios
       .delete(url);
@@ -49,41 +49,41 @@ class GroupList extends React.Component {
   }
 
   render() {
-    const { groups } = this.state;
+    const { news } = this.state;
     return (
       <main>
-        <h1> Group list</h1>
+        <h1> News list</h1>
 
         <div className="row">
           {/*List of group from the state variable*/}
-          {groups.map((group, id) => (
+          {news.map((info, id) => (
             <div
               className="card col-12 col-md-4"
-              onClick={() => this.setCurrentGroup(group, id)}
-              onMouseEnter={() => this.setCurrentGroup(group, id)}
+              onMouseEnter={() => this.setCurrentNews(info, id)}
               key={id}
             >
               <img
                 className="card-img-top"
-                src={group.picture}
+                src={info.picture}
                 alt="Card cap"
               />
               <div className="card-body">
-                <h5 className="card-title"><Link to={"/showGroup/"+ this.state.id }>{group.title} </Link> </h5>
+                <h5 className="card-title"><Link to={"/showNews/"+ this.state.id }>{info.title} </Link> </h5>
+                <p className="card-text">{info.description}</p>
               </div>
               <div className="row">
-                <div className="col-6">
+                <div className="col-12 col-md-6">
                   <button
                     className="btn btn-danger"
-                    onClick={this.deleteGroup}
+                    onClick={this.deleteNews}
                   >
                     Delete
                   </button>
                 </div>
 
-                <div className="col-6">
+                <div className="col-12 col-md-6">
                   {/*Link to the page of updating a group */}
-                  <Link className="btn btn-success" to={"/group/" + this.state.id }> Update </Link>
+                  <Link className="btn btn-success" to={"/news/" + this.state.id }> Update </Link>
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@ class GroupList extends React.Component {
         <div className="row">
           <div className="col-12 col-sm-6">
             {/*Link to the page of new group creation. This must be created in routes in App component*/}
-            <Link to="/addGroup"> Add new group </Link>
+            <Link to="/addNews"> Add news </Link>
           </div>
           {/*Link to the page of group removal*/}
         </div>
@@ -102,4 +102,4 @@ class GroupList extends React.Component {
   }
 }
 
-export default GroupList;
+export default NewsList;

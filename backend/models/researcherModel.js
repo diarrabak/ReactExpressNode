@@ -29,14 +29,8 @@ export const ResearcherSchema = new Schema({
   biography: String,
   researchgate: String,
   googlescholar: String,
-  biography: String,
   //A researcher can have many roles
-  roles: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "roles",
-    },
-  ],
+  roles: [ String],
   //Researcher can belong to many groups
   groups: [
     {

@@ -18,6 +18,11 @@ export const JobSchema = new Schema({
     type: String,
     required: false,
   },
+  
+  year: {
+    type: Date,
+    default: new Date(),
+  },
   //Contact information
   researchers: [ 
     {
@@ -25,8 +30,5 @@ export const JobSchema = new Schema({
       ref: "researchers",
     },
   ],
-  year: {
-    type: Date,
-    default: new Date(),
-  },
+ 
 });

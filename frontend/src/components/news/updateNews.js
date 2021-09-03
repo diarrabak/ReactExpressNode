@@ -1,56 +1,42 @@
 import React from "react";
 import { withRouter } from "react-router";
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import FileBase from "react-file-base64";
 //Component used to display the list of all the groups
 
-class UpdateGroup extends React.Component {
+class UpdateNews extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: "",
       description: "",
       picture: "",
-      researchers: [], //List of all users
-      selectedResearchers: [],
-      allResearchers:[],
+      date: "",
     };
-
     this.onChangeTitle = this.onChangeTitle.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeResearchers = this.onChangeResearchers.bind(this);
+    this.onChangePicture = this.onChangePicture.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
   }
 
   //When the component is active on the DOM
   //The values pulled from database to fill the dropdown menu
   componentDidMount() {
     const id = this.props.match.params.id;
-   // const { match: { params } } = this.props;
+    // const { match: { params } } = this.props;
     //console.log("Params= "+ id);
     // Use of the get controllers through the axios API
     axios
-      .get("http://localhost:5000/group/"+id)
+      .get("http://localhost:5000/new/" + id)
       .then((Response) => {
         this.setState({
           title: Response.data.title,
           description: Response.data.description,
           picture: Response.data.picture,
-          researchers: Response.data.researchers,
+          date: Response.data.date,
         });
         //console.log('element='+this.state.currentgroup);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios
-      .get("http://localhost:5000/researchers/")
-      .then((Response) => {
-        this.setState({
-          allResearchers: Response.data,
-        });
-        console.log("element=" + Response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -58,16 +44,6 @@ class UpdateGroup extends React.Component {
   }
 
   //Function to update the select value
-  onChangeResearchers(e) {
-    this.setState({
-      selectedResearchers: Array.from(
-        e.target.selectedOptions,
-        (item) => item.value
-      ),
-    });
-    e.preventDefault();
-  }
-
   onChangeTitle(e) {
     this.setState({
       title: e.target.value,
@@ -80,18 +56,29 @@ class UpdateGroup extends React.Component {
     });
   }
 
+  onChangePicture(e) {
+    this.setState({
+      picture: e.target.value,
+    });
+  }
 
-  submitGroup(event) {
+  onChangeDate(e) {
+    this.setState({
+      date: e.target.value,
+    });
+  }
+
+  submitNews(event) {
     const id = this.props.match.params.id;
     event.preventDefault();
     console.log("index = " + id);
     //Our controller endpoint to save data to the database
     axios
-      .put("http://localhost:5000/group/" + id, {
+      .put("http://localhost:5000/new/" + id, {
         title: this.state.title,
         description: this.state.description,
         picture: this.state.picture,
-        researchers: this.state.selectedResearchers,
+        date: this.state.date,
       })
       .then((response) => {
         console.log(response);
@@ -101,19 +88,19 @@ class UpdateGroup extends React.Component {
         console.log(error);
       });
 
-      this.props.history.push('/groups');
+    this.props.history.push("/news");
   }
 
   render() {
-    const { title, description, picture, selectedResearchers } = this.state;
+    const { title, description, picture, date } = this.state;
 
     return (
       <main>
-        <h1>Update a group </h1>
-        <form onSubmit={this.submitGroup.bind(this)}>
+        <h1>Update news </h1>
+        <form onSubmit={this.submitNews.bind(this)}>
           <div className="form-group row">
             <label className="form-label col-12 col-sm-2" htmlFor="title">
-              Group title
+              Title
             </label>
             <div className="col-12 col-sm-10">
               <input
@@ -133,19 +120,17 @@ class UpdateGroup extends React.Component {
               className="form-label  col-12 col-sm-2"
               htmlFor="description"
             >
-              Group description
+              Description
             </label>
             <div className="col-12 col-sm-10">
-            <textarea
-                  className="form-control"
-                  name="description"
-                  id="description"
-                  required
-                  value= {description}
-                  onChange={this.onChangeDescription}
-                >
-                
-                </textarea>
+              <textarea
+                className="form-control"
+                name="description"
+                id="description"
+                required
+                value={description}
+                onChange={this.onChangeDescription}
+              ></textarea>
             </div>
           </div>
 
@@ -154,46 +139,31 @@ class UpdateGroup extends React.Component {
               Picture
             </label>
             <div className="col-12 col-sm-10">
-            <FileBase
-                  type="file"
-                  multiple={false}
-                  onDone={({ base64 }) =>
-                    this.setState({ picture: base64 })
-                  }
-                />
+              <FileBase
+                type="file"
+                multiple={false}
+                onDone={({ base64 }) => this.setState({ picture: base64 })}
+              />
             </div>
           </div>
-
-          {/*Since it is a many to many relationship, no need to include users and topics here*/}
 
           <div className="form-group row">
-            <label
-              className="form-label  col-12 col-sm-2"
-              htmlFor="researchers"
-            >
-              Group researchers
-            </label>
-            <div className="col-12 col-sm-10">
-              <select
-                multiple={true}
-                value={selectedResearchers}
-                onChange={this.onChangeResearchers}
-                className="form-control"
-                name="researchers"
-              >
-                <option value="">== Choose researchers == </option>
-                {/*Capitalize the first letter*/}
-                {this.state.allResearchers.map((item) => (
-                  <option value={item._id} key={item._id}>
-                    {item.first_name.charAt(0).toUpperCase() +
-                      item.first_name.substring(1)}
-                    {item.last_name.charAt(0).toUpperCase() +
-                      item.last_name.substring(1)}
-                  </option>
-                ))}
-              </select>
+              <label className="form-label col-12 col-sm-2" htmlFor="date">
+                Date
+              </label>
+              <div className="col-12 col-sm-10">
+                <input
+                  type="date"
+                  className="form-control"
+                  name="date"
+                  id="date"
+                  required
+                  value={date}
+                  onChange={this.onChangeDate}
+                />
+              </div>
             </div>
-          </div>
+
 
           <div className="row">
             <div className="offset-sm-2 col-12 col-sm-4">
@@ -201,7 +171,7 @@ class UpdateGroup extends React.Component {
             </div>
             {/*Link back to group list*/}
             <div className="col-12 col-sm-6">
-              <Link to="/groups"> Back to group list </Link>
+              <Link to="/news"> Back to news list </Link>
             </div>
           </div>
         </form>
@@ -210,4 +180,4 @@ class UpdateGroup extends React.Component {
   }
 }
 
-export default  withRouter(UpdateGroup) ;
+export default withRouter(UpdateNews);

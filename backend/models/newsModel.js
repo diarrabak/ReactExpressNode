@@ -13,7 +13,6 @@ export const NewsSchema = new Schema({
     type: String,
     required: true,
   },
-  type:String,
   picture: String,
   //Contact information
   

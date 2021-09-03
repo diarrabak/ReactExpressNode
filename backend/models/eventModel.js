@@ -8,8 +8,7 @@ export const EventSchema = new Schema({
     type: String,
     required: true,
   },
-  presenters: [{ type: String, required: true }],
-  abstract: {
+  description: {
     type: String,
     required: true,
   },
@@ -18,12 +17,15 @@ export const EventSchema = new Schema({
     type: String,
     required: false,
   },
-  place: {
-    type: String,
-    required: false,
-  },
+  
   date: {
     type: Date,
     default: new Date(),
   },
+  place: {
+    type: String,
+    required: false,
+  },
+  presenters: { type: String, required: true },
+ 
 });
